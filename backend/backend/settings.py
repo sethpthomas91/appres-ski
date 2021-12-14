@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'core_app',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = ['https://localhost:3000','http://localhost:3000']
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'backend.utils.my_jwt_response_handler'
+}
