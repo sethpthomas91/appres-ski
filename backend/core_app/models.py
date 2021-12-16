@@ -10,8 +10,8 @@ class Profile(models.Model):
 
 class Location(models.Model):
     location_name = models.CharField(max_length=255)
-    longitude = models.CharField(max_length=5)
-    latitude = models.CharField(max_length=5)
+    longitude = models.CharField(max_length=8)
+    latitude = models.CharField(max_length=8)
 
     def __str__(self):
         return f'Location ID: {self.id} Name: {self.location_name}'

@@ -1,3 +1,5 @@
+// this component will return a lat long for the user to select their locaiton for their trips
+
 // bootstrap
 import { Container } from "react-bootstrap";
 
@@ -8,22 +10,17 @@ import { useRef,useState } from "react";
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import GoogleMapStyle from "../styles/GoogleMapStyle";
 
-
-
-const GoogleMapTripDisplay = () => {
-  // states
-  const [ locationMark, setLocationMark ] = useState(null);
+const TripLocationPicker = (props) => {
+  // props
+  const { location, setLocation } = props
   // googlemap
   const libraries = [ "places" ];
   const GM_API_KEY = 'AIzaSyCfb3szDWlmkBP2-eTqLi4uwZQxQZBNbrc';
   const mapContainerStyle = {
-    width : "50vw",
-    height : "50vh"
+    width : '70vw',
+    height : '70vh',
   };
-  const center = {
-    lat : 35.8381 ,
-    lng : -78.8000
-  };
+  let center = location;
   // can change styles based on snazzy maps
   const options = {
     styles : GoogleMapStyle,
@@ -41,18 +38,17 @@ const GoogleMapTripDisplay = () => {
 
   // location click handler
   const onMapClickHandler = (event) => {
-    console.log("LAT:",event.latLng.lat())
-    console.log("LNG:",event.latLng.lng())
+    let tempLocation = {...location}
+    tempLocation.lat = event.latLng.lat()
+    tempLocation.lng = event.latLng.lng()
+    setLocation(tempLocation)
   } 
 
 
 
   // render
- 
-
-
   return (
-    <Container >
+    <Container>
       <GoogleMap 
       mapContainerStyle={mapContainerStyle} 
       zoom={14} 
@@ -65,4 +61,4 @@ const GoogleMapTripDisplay = () => {
   )
 }
 
-export default GoogleMapTripDisplay;
+export default TripLocationPicker;
