@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 // API call
 import SailAPI from '../../api/SailAPI';
 
@@ -9,6 +10,8 @@ const AddTripForm = (props) => {
   // states
   const [ locations, setLocations ] = useState(null)
   const [ boatList, setBoatList ] = useState([])
+  // router
+  const navigate = useNavigate()
 
   // handlers
   const handleTripFormSubmit =  async (event) => {
@@ -26,10 +29,8 @@ const AddTripForm = (props) => {
       description : event.target.elements[4].value,
       boat: Number(event.target.elements[3].value),
     }
-    console.log(tripData)
-
     const data = await SailAPI.addTrip(tripData, userToken)
-    // still need to finish this post
+    // navigate(`/trips/${}/`)
   }
 
   // effects

@@ -7,6 +7,7 @@ import { useRef,useState } from "react";
 // google maps
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import GoogleMapStyle from "../styles/GoogleMapStyle";
+const libraries = [ "places" ];
 
 
 
@@ -14,7 +15,6 @@ const GoogleMapTripDisplay = () => {
   // states
   const [ locationMark, setLocationMark ] = useState(null);
   // googlemap
-  const libraries = [ "places" ];
   const GM_API_KEY = 'AIzaSyCfb3szDWlmkBP2-eTqLi4uwZQxQZBNbrc';
   const mapContainerStyle = {
     width : "50vw",
