@@ -23,7 +23,7 @@ const LandingPage = ({ isLoggedIn, handleLogout }) => {
           Welcome {user.username}
           <Row>
             <Col xs>
-              <h3>My Trip's</h3>
+              <h3>My Trips</h3>
               <TripListComp />
             </Col>
             <Col xs>

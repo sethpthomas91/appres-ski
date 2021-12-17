@@ -9,12 +9,14 @@ import SailAPI from "../api/SailAPI";
 import UserContext from '../contexts/UserContext';
 // componenents
 import TripLocationPicker from "../components/TripLocationPicker";
-import AddTripForm from "../components/AddTripForm";
+import AddLocationForm from "../components/forms/AddLocationForm";
+import AddTripForm from "../components/forms/AddTripForm";
 
 
 function AddTripPage() {
   // context 
   const userContext = useContext(UserContext);
+  // console.log(userContext.user ? userContext.user.id : "not here")
   const { user } = userContext
   
   // state
@@ -57,13 +59,6 @@ function AddTripPage() {
     }
 
     const data = await SailAPI.addLocation(locationData, userToken)
-
-    console.log("DATA:", data)
-  }
-
-  const handleTripFormSubmit = (event) => {
-    event.preventDefault()
-    console.log(event)
   }
 
   // render
@@ -73,33 +68,9 @@ function AddTripPage() {
       <hr />
       <h3>Create a new location on this map.</h3>
       <TripLocationPicker location={location} setLocation={setLocation}/>
-      <AddTripForm location={location} handleLocationFormSubmit={handleLocationFormSubmit}/>
+      <AddLocationForm location={location} handleLocationFormSubmit={handleLocationFormSubmit}/>
       <hr />
-      <Form onSubmit={handleTripFormSubmit}>
-        <Form.Group>
-          <Form.Label>Trip Name</Form.Label>
-          <Form.Control placeholder="MLK Day day sail" />
-        </Form.Group>
-        <br />
-        <Form.Group>
-          <Form.Label>Select Trip Date</Form.Label>
-          <Form.Control type='date' required />
-        </Form.Group>
-        <br />
-        <Form.Group>
-          <Form.Label>Location</Form.Label>
-          <Form.Control placeholder="location" />
-        </Form.Group>
-        <br />
-        <Form.Group>
-          <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} placeholder="description" />
-        </Form.Group>
-        <br />
-        <Button variant="primary" type="submit">
-          Create Trip
-        </Button>  
-      </Form>  
+      <AddTripForm user={user}/>
     </Container>
   )
 }

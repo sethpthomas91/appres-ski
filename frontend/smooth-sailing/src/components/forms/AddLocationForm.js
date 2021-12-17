@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const AddTripForm = (props) => {
+const AddLocationForm = (props) => {
   // props
   const { location, handleLocationFormSubmit } = props
 
@@ -29,4 +29,4 @@ const AddTripForm = (props) => {
   )
 }
 
-export default AddTripForm;
+export default AddLocationForm;

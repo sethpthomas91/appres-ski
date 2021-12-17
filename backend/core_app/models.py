@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
+from django.db.models.fields import related
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=CASCADE)
+    user = models.OneToOneField(User, on_delete=CASCADE, related_name='profile')
 
     def __str__(self):
         return f'ID: {self.id} User: {self.user}'
@@ -19,6 +20,8 @@ class Location(models.Model):
 class Boat(models.Model):
     boat_name = models.CharField(max_length=255)
     owner = models.ForeignKey(Profile, on_delete=CASCADE, related_name='boats')
+    max_wind = models.CharField(max_length=10)
+    min_wind = models.CharField(max_length=10)
 
     def __str__(self):
         return f'Boat ID: {self.id} Name: {self.boat_name} Owner: {self.owner}'

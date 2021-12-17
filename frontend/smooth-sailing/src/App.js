@@ -46,7 +46,6 @@ function App() {
   // handler
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log("PASS:",event.target.password.value)
     let userObj = {
       username: event.target.username.value,
       password: event.target.password.value

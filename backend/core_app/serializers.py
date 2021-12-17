@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'profile']
 
 # Serializers new user signups that responds with the new user's information and a new token
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -35,30 +35,30 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['token', 'username', 'password']
+        fields = ['id', 'token', 'username', 'password']
 
 # self made location serializer
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ['location_name', 'longitude', 'latitude' ]
+        fields = ['id', 'location_name', 'longitude', 'latitude' ]
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['user', 'boats' ,'trips']
+        fields = ['id', 'user', 'boats' ,'trips']
 
 class BoatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Boat
-        fields = ['boat_name', 'owner', ]
+        fields = ['id' ,'boat_name', 'owner', 'max_wind', 'min_wind']
 
 class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
-        fields = ['trip_name', 'boat', 'trip_date', 'profile', 'location', 'description']
+        fields = ['id','trip_name', 'boat', 'trip_date', 'profile', 'location', 'description']
 
 class ForecastSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forecast
-        fields = ['trip', 'sunrise', 'sunset', 'maxwind', 'minwind', 'avgtemp']
+        fields = ['id', 'trip', 'sunrise', 'sunset', 'maxwind', 'minwind', 'avgtemp']
