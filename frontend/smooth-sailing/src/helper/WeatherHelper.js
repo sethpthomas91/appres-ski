@@ -2402,7 +2402,7 @@ const hourlyDeconstructor = (forecast, dateObj) => {
     // generate a new date time for each hour to compare against the hour
     const hourDateObj = new Date(hour.startTime)
     if (hourDateObj.getDate() == date) {
-      return obj = {
+      return  {
         startHour : hour.startTime,
         windSpeed : hour.windSpeed,
         windDirection : hour.windDirection,
