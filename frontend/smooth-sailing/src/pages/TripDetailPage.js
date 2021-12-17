@@ -15,7 +15,7 @@ import SailAPI from '../api/SailAPI';
 import WeatherAPI from '../api/WeatherAPI';
 // helper
 import DateTimeHelpers from '../helper/DateTimeHelpers';
-import WeatherHelper from '../helper/WeatherHelper';
+
 
 const TripDetailPage = () => {
   // params
@@ -102,11 +102,6 @@ const TripDetailPage = () => {
     }
   }, [ location ])
 
-  if (isHourly && forecast) {
-    console.log(WeatherHelper.hourlyDeconstructor(forecast, trip.trip_date))
-  } 
-
-
   // render
   return (
     <Container fluid>
@@ -117,7 +112,7 @@ const TripDetailPage = () => {
           <Row>
             <Col xs>
               <h3>Forecast</h3>
-              <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly}/>
+              <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly} />
             </Col>
             <Col xs>
               <h3>My Trip Location</h3>

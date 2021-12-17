@@ -1,9 +1,29 @@
 // bootstrap
+import { useEffect, useState } from "react"
 import { Container } from "react-bootstrap"
+import HourlyChart from "../charts/HourlyChart"
+import GeneralForecast from "./GeneralForecast"
+// components
+// helpers
+import WeatherHelper from '../../helper/WeatherHelper';
+
 
 const ForecastContainer = (props) => {
-  const { location, trip, boat, forecast, isHourly } = props
+  // props
+  const { location, trip, boat, forecast, isHourly} = props
+  // state
+  const [ hourlyData, setHourlyData ] = useState(null)
 
+  useEffect(() => {
+    let tempData = hourlyData
+      if (forecast && trip){
+      tempData = WeatherHelper.hourlyDeconstructor(forecast, trip.trip_date)
+      setHourlyData(tempData)
+      console.log(tempData)
+    }
+  }, [forecast, trip]) //only renders upon initial call of component
+
+  // render
   return (
     <Container>
       <h5> Trip Name: {trip && trip.trip_name} </h5>
@@ -21,17 +41,16 @@ const ForecastContainer = (props) => {
       {
         !isHourly && forecast
           ?
-          <>
-            <h3>Forecast for {forecast.properties.periods[0].name}</h3>
-            <h3>Current Forecast: {forecast.properties.periods[0].shortForecast}</h3>
-            <img alt={`${forecast.properties.periods[0].shortForecast} icon`} src={forecast.properties.periods[0].icon} width={'30px'} height={'30px'} />
-            <h3>Current Temp: {forecast.properties.periods[0].temperature} </h3>
-            <h3>Daytime: {forecast.properties.periods[0].detailedForecast} Evening : {forecast.properties.periods[1].detailedForecast} </h3>
-          </>
+          <GeneralForecast forecast={forecast} />
           :
-          <>
-            <h2>Loading Current Weather</h2>
-          </>
+          <></>
+      }
+      {
+        isHourly && hourlyData
+          ?
+          <HourlyChart hourlyData={hourlyData} boat={boat}/>
+          :
+          <h1>No information for chart available.</h1>
       }
     </Container>
   )
