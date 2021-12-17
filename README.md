@@ -1,6 +1,6 @@
-# Welcome to Appri Ski
+# Welcome to Appres Ski
 #### Not the world's first ski planning application, but mine.
-Application Name: Appri-Ski <br/>
+Application Name: Appres Ski <br/>
 Start-date: 11 DEC 2021 <br/>
 Due date: 22 DEC 2021 <br/>
 
@@ -24,3 +24,16 @@ This is my final project for Code Platoon. I will also be using this for my ski 
 ### Extended features (stretch goals)
 1. Returns breweries for after ski days
 2. Returns hotels and rates for your forecasted days 
+
+
+# 2. Naming conventions
+# 3. Example of use
+# 4. Sources
+
+Framework:
+Django-React
+Django is limited to 3.2.9 due to the incompatibility of djangorestframework to work with Django 4.0.0. 
+
+Database:
+PostgreSQL managed by psycopg2
+
