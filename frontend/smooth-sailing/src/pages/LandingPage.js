@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from 'react-router-dom';
+// React
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from '../contexts/UserContext';
 // bootstrap
 import { Container, Row, Col } from 'react-bootstrap'
@@ -7,6 +7,12 @@ import { Container, Row, Col } from 'react-bootstrap'
 import TripListComp from "../components/TripListComp";
 import BoatListComp from "../components/BoatListComp";
 import GoogleMapTripDisplay from "../components/GoogleMapTripDisplay";
+import LoginSignupComp from "../components/landing/LoginSignupComp";
+import NavbarComp from "../components/NavbarComp";
+// API Calls
+import SailAPI from '../api/SailAPI';
+// css styling
+import '../styles/landing_styles/LandingPageStyle.css'
 
 
 const LandingPage = ({ isLoggedIn, handleLogout }) => {
@@ -14,46 +20,49 @@ const LandingPage = ({ isLoggedIn, handleLogout }) => {
   const userContext = useContext(UserContext);
   const { user } = userContext
 
+  // state
+  const [locationsArr, setLocationsArr] = useState()
+
+  useEffect(() => {
+    const getLocationsArr = async () => {
+      const userToken = localStorage['auth-user'] 
+      const data = await SailAPI.fetchLocations(userToken)
+      if (data) {
+        setLocationsArr(data)
+        console.log(data)
+      }
+    }
+    getLocationsArr() 
+  }, [])
+
   // render
   return (
-    <div>
-      <h1>Landing Page</h1>
-      { user &&
-        <Container fluid>
-          Welcome {user.username}
-          <Row>
-            <Col xs>
-              <h3>My Trips</h3>
-              <TripListComp />
-            </Col>
-            <Col xs>
-            <h3>My Trip Map</h3>
-            <GoogleMapTripDisplay />
-            </Col>
-            <Col xs>
-            <h3>My Boats</h3>
-              <BoatListComp />
-            </Col>
-          </Row>
-        </Container>
-      }
-      {/* displays the logout button, need to find a better place, in a navbar? */}
-      {
-        !isLoggedIn
-        ?
-          <div>
-            <div>
-              <Link to='/login'> Login </Link>
-            </div>
-            <div>
-              <Link to='/signup'> Signup </Link>
-            </div>
-          </div>
-          :
-          <button onClick={handleLogout}> Logout </button>
-      }
-
-    </div>
+    <Container fluid className="background">
+        {user &&
+          <Container className="no-padding-no-margin" fluid>
+            <NavbarComp username={user.username} handleLogout={handleLogout}/>
+            <Row>
+              <Col  xs>
+                <TripListComp />
+              </Col>
+              <Col xs>
+                {locationsArr && <GoogleMapTripDisplay locationsArr={locationsArr} />}
+              </Col>
+              <Col xs>
+                <BoatListComp />
+              </Col>
+            </Row>
+          </Container>
+        }
+        {/* displays the logout button, need to find a better place, in a navbar? */}
+        {
+          !isLoggedIn
+            ?
+            <LoginSignupComp />
+            :
+            <></>
+        }
+    </Container>
   )
 }
 

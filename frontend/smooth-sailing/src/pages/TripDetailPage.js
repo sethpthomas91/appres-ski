@@ -4,9 +4,9 @@
 
 // bootstrap
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 // router
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // components
 import GoogleMapTripDisplay from "../components/GoogleMapTripDisplay";
 import ForecastContainer from "../components/forecast/ForecastContainer";
@@ -24,11 +24,14 @@ const TripDetailPage = () => {
   // states
   const [ trip, setTrip ] = useState(null)
   const [ location, setLocation ] = useState(null)
+  const [locationsArr, setLocationsArr] = useState(null)
   const [ boat, setBoat ] = useState(null)
   const [ forecast, setForecast ] = useState(null)
   // this state will depend on the trip date to determine whether to show current vs hourly weather. Default will be current weather
   const [ isHourly, setIsHourly ] = useState(false)
 
+  // router
+  const navigate = useNavigate()
   
   
   // effects
@@ -52,6 +55,7 @@ const TripDetailPage = () => {
       const data = await SailAPI.fetchLocationById(userToken, LocationID)
       if (data) {
         setLocation(data)
+        setLocationsArr([data])
       }
     }
     if (trip) {
@@ -93,7 +97,6 @@ const TripDetailPage = () => {
       // isHourly is set as soon as we have a trip and the location is called
       const data = await WeatherAPI.fetchNoaaAPICall(lat, long, isHourly)
       if (data) {
-        console.log("forecast:", data)
         setForecast(data)
       }
     }
@@ -102,24 +105,31 @@ const TripDetailPage = () => {
     }
   }, [ location ])
 
+  // helper functions
+  const deleteTrip = async (tripID) => {
+    const userToken = localStorage['auth-user']
+    const data = await SailAPI.deleteTrip(tripID, userToken)
+    console.log(tripID)
+    navigate('/')
+  }
+
   // render
   return (
-    <Container fluid>
+    <Container fluid className="background">
       <h1>Trip detail page</h1>
       <Container>
         <h1>This will be the forecast on top of the page</h1>
+        <Button onClick={() => deleteTrip(trip.id)}>Delete Trip</Button>
+        <Button onClick={() => navigate('/')}>Home</Button>
+        <Button onClick={() => navigate(`/trips/${tripID}/edit/`)}>Edit</Button>
       </Container>
-          <Row>
-            <Col xs>
-              <h3>Forecast</h3>
-              <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly} />
-            </Col>
-            <Col xs>
-              <h3>My Trip Location</h3>
-            <GoogleMapTripDisplay />
-            </Col>
-          </Row>
-        </Container>
+      <Row >
+        <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly} />
+        <Col xs>
+        {locationsArr && <GoogleMapTripDisplay locationsArr={locationsArr} />}
+        </Col>
+      </Row>
+    </Container>
   )
 
 }

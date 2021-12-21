@@ -6,9 +6,9 @@ import SailAPI from '../../api/SailAPI';
 
 const AddTripForm = (props) => {
   // props
-  const { user } = props 
+  const { user, locations } = props 
   // states
-  const [ locations, setLocations ] = useState(null)
+  // const [ locations, setLocations ] = useState(null)
   const [ boatList, setBoatList ] = useState([])
   // router
   const navigate = useNavigate()
@@ -30,21 +30,9 @@ const AddTripForm = (props) => {
       boat: Number(event.target.elements[3].value),
     }
     const data = await SailAPI.addTrip(tripData, userToken)
-    // navigate(`/trips/${}/`)
+    console.log(data)
   }
 
-  // effects
-  // main purpose is the generate the list of all locations
-  useEffect(() => {
-    const getLocations = async () => {
-      const userToken = localStorage['auth-user']
-      const data = await SailAPI.fetchLocations(userToken)
-      if (data) {
-        setLocations(data)
-      }
-    }
-    getLocations()
-  }, [locations]) 
   // this should generate all of the boats for the user
   useEffect(() => {
     const getUserBoats = async () => {

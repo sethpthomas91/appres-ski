@@ -1,6 +1,6 @@
 // this component will show a current list of boats that the user has
 // bootstrap
-import { Table,Button } from "react-bootstrap";
+import { Table,Button, Card } from "react-bootstrap";
 // router 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,20 +46,25 @@ const BoatListComp = () => {
 
   // render
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Boat Name</th>
-          <th>Condition</th>
-        </tr>
-      </thead>
-      <tbody>
-        { boatList && renderUserBoats()}
-      <tr>
-          <td colSpan="2" onClick={() => navigate('/boats/add')}><Button>Add New Boat</Button></td>
-      </tr>
-      </tbody>
-    </Table>
+    <Card>
+      <Card.Header>My Boats</Card.Header>
+      <Card.Body>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Boat Name</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            {boatList && renderUserBoats()}
+            <tr>
+              <td colSpan="2" onClick={() => navigate('/boats/add')}><Button>Add New Boat</Button></td>
+            </tr>
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
   )
 
 }

@@ -1,8 +1,9 @@
 // this component will call for a list of all trips for a particular user, for use on main page display
-// bootstrap
+// react and router
 import { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap"
 import { useNavigate, Link } from "react-router-dom";
+// bootstrap
+import { Button, Table, Card } from "react-bootstrap"
 // API Call
 import SailAPI from '../api/SailAPI';
 
@@ -48,22 +49,28 @@ const TripListComp = () => {
 
   // render
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Trip Name</th>
-          <th>Sail Date</th>
-          <th>Location</th>
-          <th>Weather</th>
-        </tr>
-      </thead>
-      <tbody>
-      { userTrips && renderUserTrips() }
-        <tr>
-          <td colSpan="5" onClick={() => navigate('/trips/add/')}><Button>Add New Trip</Button></td>
-        </tr>
-      </tbody>
-    </Table>
+    <Card>
+      <Card.Header>My Trips</Card.Header>
+      <Card.Body>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Trip Name</th>
+              <th>Sail Date</th>
+              <th>Location</th>
+              <th>Weather</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userTrips && renderUserTrips()}
+            <tr>
+              <td colSpan="5" onClick={() => navigate('/trips/add/')}><Button>Add New Trip</Button></td>
+            </tr>
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
+
   )
 
 

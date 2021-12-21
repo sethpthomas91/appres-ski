@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import { Container, Card } from "react-bootstrap";
 import {
   LineChart,
   Line,
@@ -10,129 +9,6 @@ import {
   Legend,
   ReferenceLine
 } from "recharts";
-// test data for the chart
-// const data = [
-//   {
-//     name: "0100",
-//     wind: 0,
-//     amt: 2400
-//   },
-//   {
-//     name: "0200",
-//     wind: 0,
-//     amt: 2210
-//   },
-//   {
-//     name: "0300",
-//     wind: 0,
-//     amt: 2290
-//   },
-//   {
-//     name: "0400",
-//     wind: 0,
-//     amt: 2000
-//   },
-//   {
-//     name: "0500",
-//     wind: 0,
-//     amt: 2181
-//   },
-//   {
-//     name: "0600",
-//     wind: 0,
-//     amt: 2500
-//   },
-//   {
-//     name: "0700",
-//     wind: 5,
-//     amt: 2100
-//   },
-//   {
-//     name: "0800",
-//     wind: 6,
-//     amt: 2100
-//   },
-//   {
-//     name: "0900",
-//     wind: 5,
-//     amt: 2100
-//   },
-//   {
-//     name: "1000",
-//     wind: 8,
-//     amt: 2100
-//   },
-//   {
-//     name: "1100",
-//     wind: 7,
-//     amt: 2100
-//   },
-//   {
-//     name: "1200",
-//     wind: 6,
-//     amt: 2100
-//   },
-//   {
-//     name: "1300",
-//     wind: 5,
-//     amt: 2100
-//   },
-//   {
-//     name: "1400",
-//     wind: 10,
-//     amt: 2100
-//   },
-//   {
-//     name: "1500",
-//     wind: 11,
-//     amt: 2100
-//   },
-//   {
-//     name: "1600",
-//     wind: 6,
-//     amt: 2100
-//   },
-//   {
-//     name: "1700",
-//     wind: 4,
-//     amt: 2100
-//   },
-//   {
-//     name: "1800",
-//     wind: 2,
-//     amt: 2100
-//   },
-//   {
-//     name: "1900",
-//     wind: 1,
-//     amt: 2100
-//   },
-//   {
-//     name: "2000",
-//     wind: 0,
-//     amt: 2100
-//   },
-//   {
-//     name: "2100",
-//     wind: 0,
-//     amt: 2100
-//   },
-//   {
-//     name: "2200",
-//     wind: 0,
-//     amt: 2100
-//   },
-//   {
-//     name: "2300",
-//     wind: 0,
-//     amt: 2100
-//   },
-//   {
-//     name: "2400",
-//     wind: 0,
-//     amt: 2100
-//   },
-// ];
 
 const HourlyChart = (props) => {
   // props
@@ -142,14 +18,14 @@ const HourlyChart = (props) => {
   const generateChart = () => {
     return (
       <LineChart
-        width={800}
+        width={700}
         height={300}
         data={hourlyData}
         margin={{
           top: 20,
-          right: 50,
+          right: 20,
           left: 20,
-          bottom: 5
+          bottom: 10
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
@@ -170,9 +46,10 @@ const HourlyChart = (props) => {
   
   // render
   return (
-    <>
+    <Card>
+      {/* <Card.Header>Hourly Data</Card.Header> */}
     {generateChart()}
-    </>
+    </Card>
   )
 }
 

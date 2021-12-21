@@ -2,20 +2,20 @@
 import './App.css';
 // browser router
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 // pages
 import LoginPage from './pages/LoginPage';
 import LandingPage from './pages/LandingPage';
 import SignupPage from './pages/SignupPage';
 import AddTripPage from './pages/AddTripPage';
 import TripDetailPage from './pages/TripDetailPage';
+import EditTripPage from './pages/EditTripPage';
 // context
 import UserContext from './contexts/UserContext';
 // API cals
 import UserAPI from './api/UserAPI';
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
-// Google Maps
 
 
 
@@ -37,6 +37,7 @@ function App() {
         }
       }
     }
+
     // only calls if there is NOT a user present, so if user = null it will try to get a user
     if (!user) {
       getUser()
@@ -76,6 +77,7 @@ function App() {
             <Route path='/signup' element={<SignupPage />} />
             <Route path='trips/add' element={<AddTripPage />} />
             <Route path='trips/:tripID/' element={<TripDetailPage />} />
+            <Route path='trips/:tripID/edit' element={<EditTripPage />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

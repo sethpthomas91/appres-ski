@@ -95,6 +95,33 @@ const addTrip = async (tripObj, token) => {
   return await tryCatchFetch(url, init)
 }
 
+const editTrip = async (tripObj, tripID, token) => {
+  // this is set to the base url because of REST framework
+  const url = BASE_URL + TRIPS_URL_ADD + tripID + "/"
+  const init = {
+    method : "PATCH",
+    headers: {
+      'Content-Type' : 'application/json',
+      Authorization : `JWT ${token}`
+    }, 
+    body: JSON.stringify(tripObj)
+  }
+  return await tryCatchFetch(url, init)
+}
+
+const deleteTrip = async (tripID, token) => {
+  // this is set to the base url because of REST framework
+  const url = BASE_URL + TRIPS_URL_ADD + tripID + '/'
+  const init = {
+    method : "DELETE",
+    headers: {
+      'Content-Type' : 'application/json',
+      Authorization : `JWT ${token}`
+    }
+  }
+  return await tryCatchFetch(url, init)
+}
+
 const fetchLocations = async (token) => {
   // this is set to the base url because of REST framework
   const url = BASE_URL + LOCATIONS_URL_ADD
@@ -130,6 +157,8 @@ const exportCalls = {
   fetchLocations,
   fetchLocationById,
   addTrip,
+  editTrip,
+  deleteTrip,
   fetchTripById,
 }
 

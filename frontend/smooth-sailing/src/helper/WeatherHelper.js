@@ -23,7 +23,6 @@ const hourlyDeconstructor = (forecast, dateObj) => {
   const filteredHourArr = hourArr.filter((obj) => {
     return obj
   } )
-  console.log(filteredHourArr)
   return filteredHourArr
 }
 
