@@ -1,15 +1,24 @@
 // bootstrap
-import { Container, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 // css
 import "../styles/component_styles/GoogleMapTripCompStyle.css";
-// react
-import { useRef,useState } from "react";
-
+// google places 
+import usePlacesAutocomplete, {
+  getGeoCode,
+  getLatLng,
+} from 'use-places-autocomplete';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from '@reach/combobox'
+import '@reach/combobox/styles.css';
 // google maps
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import GoogleMapStyle from "../styles/GoogleMapStyle";
 const libraries = [ "places" ];
-
 
 
 
@@ -20,7 +29,6 @@ const GoogleMapTripDisplay = (props) => {
   // generates all markers based on locationsArr prop
   const markerGenerator = (arr) => {
     console.log(arr)
-
     return arr.map((location) => {
       return (
         <Marker 
@@ -64,16 +72,33 @@ const GoogleMapTripDisplay = (props) => {
     console.log("LNG:",event.latLng.lng())
   } 
 
-
+  // search helpers
+  const Search = () => {
+    const {ready, value, suggestions: {status, data}, setValue, clearSuggestions, } = usePlacesAutocomplete({
+      requestOptions: {
+        // sets area to prefer the search from
+        location : { lat: () => locationsArr[0].latitude, lng: ()  => locationsArr[0].longitude},
+        radius: 200 * 1000,
+      }
+    })
+    return (
+    <Combobox onSelect={(address) => {console.log(address)}}>
+      <ComboboxInput value={value} onChange={(event) => {
+        setValue(event.target.value)
+      }}
+      disabled={!ready}
+      placeholder="Enter your search here"
+      />
+    </Combobox>
+    )
+  }
 
   // render
- 
-
-
   return (
     <Card className="map-card">
       <Card.Header>All Trips</Card.Header>
       <Card.Body>
+        <Search />
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={14}
