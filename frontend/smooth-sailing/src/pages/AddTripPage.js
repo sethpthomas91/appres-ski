@@ -18,7 +18,6 @@ import '../styles/form_styles/TripFormStyles.css'
 function AddTripPage() {
   // context 
   const userContext = useContext(UserContext);
-  // console.log(userContext.user ? userContext.user.id : "not here")
   const { user } = userContext
   
   // state
@@ -27,9 +26,6 @@ function AddTripPage() {
     lat : 35.8381 ,
     lng : -78.8000
   })
-
-  // router props
-  const navigate = useNavigate()
 
   // effects 
   useEffect(() => {

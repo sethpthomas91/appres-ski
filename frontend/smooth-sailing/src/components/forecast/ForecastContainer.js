@@ -6,7 +6,7 @@ import GeneralForecast from "./GeneralForecast"
 // components
 // helpers
 import WeatherHelper from '../../helper/WeatherHelper';
-import TripCard from "../TripCard";
+import DayOfOverview from "./DayOfOverview";
 
 
 const ForecastContainer = (props) => {
@@ -23,12 +23,13 @@ const ForecastContainer = (props) => {
     }
   }, [forecast, trip])
 
+  console.log("In the morning forecast", hourlyData && hourlyData[8].shortForecast)
+  console.log("In the afternoon forecast", hourlyData && hourlyData[16].shortForecast)
+
+
   // render
   return (
     <Container className="justify-content-md-center">
-      <Col xs>
-      {trip && location && <TripCard trip={trip} location={location}/>}
-      </Col>
       <Col xs>
       {
         !isHourly && forecast
@@ -42,7 +43,10 @@ const ForecastContainer = (props) => {
       {
         isHourly && hourlyData
           ?
+          <Container>
           <HourlyChart hourlyData={hourlyData} boat={boat}/>
+          <DayOfOverview hourlyData={hourlyData}/>
+          </Container>
           :
           <></>
       }

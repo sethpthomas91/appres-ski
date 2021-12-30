@@ -37,7 +37,8 @@ const BoatListComp = () => {
         return (
           <tr key={index}>
             <td>{boat.boat_name}</td>
-            <td>Condition</td>
+            <td>{boat.max_wind}</td>
+            <td>{boat.min_wind}</td>
           </tr>
         )
       })
@@ -53,13 +54,14 @@ const BoatListComp = () => {
           <thead>
             <tr>
               <th>Boat Name</th>
-              <th>Condition</th>
+              <th>Max Wind</th>
+              <th>Min Wind</th>
             </tr>
           </thead>
           <tbody>
             {boatList && renderUserBoats()}
             <tr>
-              <td colSpan="2" onClick={() => navigate('/boats/add')}><Button>Add New Boat</Button></td>
+              <td colSpan="3" onClick={() => navigate('/boats/add')}><Button>Add New Boat</Button></td>
             </tr>
           </tbody>
         </Table>

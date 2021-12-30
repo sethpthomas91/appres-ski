@@ -43,7 +43,7 @@ const fetchTripById = async (token, tripID) => {
   return await tryCatchFetch(url, init)
 }
 
-// grabs the boats based on the user id
+// grabs the boats based on the user id, the token should limit to ones owned by the user
 const fetchBoats = async (token) => {
   const url = BASE_URL + BOATS_URL_ADD
   const init = {
@@ -66,6 +66,32 @@ const fetchBoatById = async (token, boatID) => {
   }
   return await tryCatchFetch(url, init)
 }
+
+const addBoat = async (boatObj, token) => {
+  const url = BASE_URL + BOATS_URL_ADD
+  const init = {
+    method : "POST",
+    headers : {
+      'Content-Type' : 'application/json',
+      Authorization : `JWT ${token}`
+    },
+    body : JSON.stringify(boatObj)
+  }
+  return await tryCatchFetch(url, init)
+}
+
+const deleteBoat = async (boatID, token) => {
+  const url = BASE_URL + BOATS_URL_ADD + boatID + '/'
+  const init = {
+    method : "DELETE",
+    headers: {
+      'Content-Type' : 'application/json',
+      Authorization : `JWT ${token}`
+    }
+  }
+  return await tryCatchFetch(url, init)
+}
+
 
 const addLocation = async (locationObj, token) => {
   // this is set to the base url because of REST framework
@@ -152,6 +178,8 @@ const fetchLocationById = async (token, locationID) => {
 const exportCalls = {
   fetchTrips,
   fetchBoats,
+  addBoat,
+  deleteBoat,
   fetchBoatById,
   addLocation,
   fetchLocations,

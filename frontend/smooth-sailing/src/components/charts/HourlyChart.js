@@ -1,4 +1,4 @@
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, Row, Col } from "react-bootstrap";
 import {
   LineChart,
   Line,
@@ -47,8 +47,15 @@ const HourlyChart = (props) => {
   // render
   return (
     <Card>
-      {/* <Card.Header>Hourly Data</Card.Header> */}
-    {generateChart()}
+      <Card.Header>Day of Hourly Data</Card.Header>
+      <Row>
+        <Col sm={1}>
+        <h6>wind speed</h6>
+        </Col>
+        <Col sm={11}>
+        {generateChart()}
+        </Col>
+      </Row>
     </Card>
   )
 }

@@ -3,15 +3,24 @@ import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 // API call
 import SailAPI from '../../api/SailAPI';
+// react
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const AddTripForm = (props) => {
   // props
-  const { user, locations } = props 
+  const { locations } = props 
+  
   // states
-  // const [ locations, setLocations ] = useState(null)
   const [ boatList, setBoatList ] = useState([])
   // router
   const navigate = useNavigate()
+
+  // context
+  const userContext = useContext(UserContext);
+  const { user } = userContext
+  const userProfile = user.profile
+
 
   // handlers
   const handleTripFormSubmit =  async (event) => {
@@ -23,14 +32,13 @@ const AddTripForm = (props) => {
     const tripData = {
       trip_name : event.target.elements[0].value,
       trip_date: event.target.elements[1].value,
-      // there should be a better way of accessing this profile or setting a default value
-      profile : user.profile ? user.profile : 1,
+      profile : userProfile,
       location: event.target.elements[2].value,
       description : event.target.elements[4].value,
       boat: Number(event.target.elements[3].value),
     }
     const data = await SailAPI.addTrip(tripData, userToken)
-    console.log(data)
+    navigate('/')
   }
 
   // this should generate all of the boats for the user

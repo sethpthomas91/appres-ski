@@ -40,7 +40,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
 class BoatViewSet(viewsets.ModelViewSet):
-    queryset = Boat.objects.all()
+
+    # This should filter the requests back based on who is logged in.
+    def get_queryset(self):
+        user = self.request.user.id
+        profile = Profile.objects.get(user_id=user)
+        return Boat.objects.filter(owner_id=profile)
+
     serializer_class = BoatSerializer
 
 class TripViewSet(viewsets.ModelViewSet):
@@ -50,7 +56,6 @@ class TripViewSet(viewsets.ModelViewSet):
         user = self.request.user.id
         profile = Profile.objects.get(user_id=user)
         return Trip.objects.filter(profile=profile)
-    # queryset = Trip.objects.all()
 
     serializer_class = TripSerializer
 

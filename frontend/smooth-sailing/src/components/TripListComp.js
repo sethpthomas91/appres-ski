@@ -13,6 +13,8 @@ const TripListComp = () => {
   
   // state
   const [ userTrips, setUserTrips ] = useState([])
+  const [ userLocations, setUserLocations ] = useState([])
+
   // effects
   useEffect(() => {
     const getUserTrips = async () => {
@@ -25,6 +27,18 @@ const TripListComp = () => {
     getUserTrips()
   },[])
 
+  // effects
+  useEffect(() => {
+    const getLocations = async () => {
+      const userToken = localStorage['auth-user']
+      const data = await SailAPI.fetchLocations(userToken)
+      if (data) {
+        setUserLocations(data)
+      }
+    }
+    getLocations()
+  },[userTrips]) //depends on trips to execute
+
   // list constructor
   const renderUserTrips = () => {
     if (!userTrips) {
@@ -34,15 +48,23 @@ const TripListComp = () => {
         </tr>
       )
     } else {
+      
       return userTrips.map((trip, index) => {
-        return (
-          <tr key={index}>
-            <td><Link to={`/trips/${trip.id}`}>{trip.trip_name}</Link></td>
-            <td>{trip.trip_date}</td>
-            <td>{trip.location}</td>
-            <td>Conditions</td>
-          </tr>
-        )
+        // get the location name
+        let tripLocationID = trip.location
+        for (let i = 0; i < userLocations.length; i++) {
+          if (tripLocationID === userLocations[i].id) {
+            let locationName = userLocations[i].location_name
+            return (
+              // returns the list component with all of the information displayed
+              <tr key={index}>
+                <td><Link to={`/trips/${trip.id}`}>{trip.trip_name}</Link></td>
+                <td>{trip.trip_date}</td>
+                <td>{locationName}</td>
+              </tr>
+            )
+          }
+        }
       })
     }
   }
@@ -58,11 +80,10 @@ const TripListComp = () => {
               <th>Trip Name</th>
               <th>Sail Date</th>
               <th>Location</th>
-              <th>Weather</th>
             </tr>
           </thead>
           <tbody>
-            {userTrips && renderUserTrips()}
+            {userTrips && userLocations && renderUserTrips()}
             <tr>
               <td colSpan="5" onClick={() => navigate('/trips/add/')}><Button>Add New Trip</Button></td>
             </tr>
@@ -70,10 +91,7 @@ const TripListComp = () => {
         </Table>
       </Card.Body>
     </Card>
-
   )
-
-
 }
 
 export default TripListComp

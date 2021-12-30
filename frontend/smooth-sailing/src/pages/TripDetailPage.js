@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 // components
 import GoogleMapTripDisplay from "../components/GoogleMapTripDisplay";
 import ForecastContainer from "../components/forecast/ForecastContainer";
+import TripCard from "../components/TripCard";
 // API Call
 import SailAPI from '../api/SailAPI';
 import WeatherAPI from '../api/WeatherAPI';
@@ -116,22 +117,22 @@ const TripDetailPage = () => {
   // render
   return (
     <Container fluid className="background">
-      <h1>Trip detail page</h1>
       <Container>
-        <h1>This will be the forecast on top of the page</h1>
         <Button onClick={() => deleteTrip(trip.id)}>Delete Trip</Button>
         <Button onClick={() => navigate('/')}>Home</Button>
         <Button onClick={() => navigate(`/trips/${tripID}/edit/`)}>Edit</Button>
       </Container>
-      <Row >
+      <Container fluid xs>
+      {trip && location && <TripCard trip={trip} location={location}/>}
+      </Container>
+      <Row>
         <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly} />
         <Col xs>
-        {locationsArr && <GoogleMapTripDisplay locationsArr={locationsArr} />}
+            {locationsArr && <GoogleMapTripDisplay locationsArr={locationsArr} />}
         </Col>
       </Row>
     </Container>
   )
-
 }
 
 export default TripDetailPage

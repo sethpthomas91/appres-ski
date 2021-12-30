@@ -16,6 +16,7 @@ import UserContext from './contexts/UserContext';
 import UserAPI from './api/UserAPI';
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AddBoatForm from './components/forms/AddBoatForm';
 
 
 
@@ -78,6 +79,7 @@ function App() {
             <Route path='trips/add' element={<AddTripPage />} />
             <Route path='trips/:tripID/' element={<TripDetailPage />} />
             <Route path='trips/:tripID/edit' element={<EditTripPage />} />
+            <Route path='boats/add' element={<AddBoatForm />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

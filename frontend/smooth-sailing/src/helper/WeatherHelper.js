@@ -15,7 +15,8 @@ const hourlyDeconstructor = (forecast, dateObj) => {
         startHour : hourOnly,
         windSpeed : Number(windNumOnly[0]),
         windDirection : hour.windDirection,
-        temperature : hour.temperature
+        temperature : hour.temperature,
+        shortForecast : hour.shortForecast
       }
     } 
   })
@@ -24,6 +25,10 @@ const hourlyDeconstructor = (forecast, dateObj) => {
     return obj
   } )
   return filteredHourArr
+}
+
+const forecastType = (forecastData) => {
+  return forecastData.properties.forecastGenerator === 'HourlyForecastGenerator' ? "Hourly" : "General"
 }
 
 const helperFunctions = {
