@@ -21,14 +21,19 @@ const SignupPage = () => {
       'username' : event.target.username.value,
       'password' : event.target.password.value,
     }
-    console.log("sent user obj:",userObj)
     let response = await UserAPI.signupUser(userObj)
-    console.log("response:",response)
     let data = await response.json()
-    console.log("DATA:",data)
     if (data.error) {
       console.error('there was an error signing up')
     } else {
+      let newUserToken = data.token
+      let profileObj = {
+        'user' : data.id,
+        'boats' : [],
+        'trips' : []
+      }
+      let second_response = await UserAPI.createProfile(profileObj, newUserToken)
+      let second_data = await second_response.json()
       navigate('/login')
     }
   }

@@ -1,5 +1,5 @@
 const login = (userObj) => {
-  const url = 'http://localhost:8000/token-auth/'
+  const url = 'https://smooth-sailing-backend.herokuapp.com/token-auth/'
   const init = {
     method: "POST",
     headers : {
@@ -12,7 +12,7 @@ const login = (userObj) => {
 }
 
 const getLoggedInUser = (token) => {
-  const url = 'http://localhost:8000/core/current_user/'
+  const url = 'https://smooth-sailing-backend.herokuapp.com/core/current_user/'
   const init = {
     headers : {
       'Content-Type' : 'application/json',
@@ -24,7 +24,7 @@ const getLoggedInUser = (token) => {
 }
 
 const signupUser = (userObj) => {
-  const url = 'http://localhost:8000/core/users/'
+  const url = 'https://smooth-sailing-backend.herokuapp.com/core/users/'
   const init = {
     method: "POST",
     headers : {
@@ -36,10 +36,25 @@ const signupUser = (userObj) => {
   return fetch(url, init).then(res => res)
 }
 
+const createProfile = (profileObj, token) => {
+  const url = 'https://smooth-sailing-backend.herokuapp.com/core/profiles/'
+  const init = {
+    method: 'POST',
+    headers : {
+      'Content-Type' : 'application/json',
+      Authorization : `JWT ${token}`
+    },
+    body : JSON.stringify(profileObj)
+  }
+
+  return fetch(url, init).then(res => res)
+}
+
 const exportCalls = {
   login,
   getLoggedInUser,
   signupUser,
+  createProfile,
 }
 
 export default exportCalls

@@ -11,7 +11,7 @@ import DayOfOverview from "./DayOfOverview";
 
 const ForecastContainer = (props) => {
   // props
-  const { location, trip, boat, forecast, isHourly} = props
+  const { trip, boat, forecast, isHourly} = props
   // state
   const [ hourlyData, setHourlyData ] = useState(null)
 
@@ -22,10 +22,6 @@ const ForecastContainer = (props) => {
       setHourlyData(tempData)
     }
   }, [forecast, trip])
-
-  console.log("In the morning forecast", hourlyData && hourlyData[8].shortForecast)
-  console.log("In the afternoon forecast", hourlyData && hourlyData[16].shortForecast)
-
 
   // render
   return (

@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/core/'
+const BASE_URL = 'https://smooth-sailing-backend.herokuapp.com/core/'
 const TRIPS_URL_ADD = 'trips/'
 const BOATS_URL_ADD = 'boats/'
 const LOCATIONS_URL_ADD = 'locations/'
