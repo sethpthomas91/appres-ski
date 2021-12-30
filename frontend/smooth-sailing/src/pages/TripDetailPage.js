@@ -1,21 +1,38 @@
+// trip detail page will contain:
+// 1. a map centered on the locaiton of the lake for the trip
+// 2. A container with the current graph that looks at location and displays wind weather
+
 // bootstrap
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 // router
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // components
 import GoogleMapTripDisplay from "../components/GoogleMapTripDisplay";
+import ForecastContainer from "../components/forecast/ForecastContainer";
+import TripCard from "../components/TripCard";
 // API Call
 import SailAPI from '../api/SailAPI';
+import WeatherAPI from '../api/WeatherAPI';
+// helper
+import DateTimeHelpers from '../helper/DateTimeHelpers';
+
 
 const TripDetailPage = () => {
   // params
   const params = useParams()
   const { tripID } = params
+  // states
   const [ trip, setTrip ] = useState(null)
   const [ location, setLocation ] = useState(null)
+  const [locationsArr, setLocationsArr] = useState(null)
   const [ boat, setBoat ] = useState(null)
+  const [ forecast, setForecast ] = useState(null)
+  // this state will depend on the trip date to determine whether to show current vs hourly weather. Default will be current weather
+  const [ isHourly, setIsHourly ] = useState(false)
 
+  // router
+  const navigate = useNavigate()
   
   
   // effects
@@ -39,10 +56,13 @@ const TripDetailPage = () => {
       const data = await SailAPI.fetchLocationById(userToken, LocationID)
       if (data) {
         setLocation(data)
+        setLocationsArr([data])
       }
     }
     if (trip) {
       getLocation()
+      // placed this call in here so getting the forecast has access to the state isHourly
+      getHourlyStatus()
     }
   }, [ trip ])
 
@@ -60,38 +80,59 @@ const TripDetailPage = () => {
       getBoat()
     }
   }, [ trip ])
-  
 
+  const getHourlyStatus = () => {
+    if (trip) {
+      const userDate = new Date();
+      const insideHourly = DateTimeHelpers.determineDateWithinHoulryRange(userDate, trip.trip_date)
+      setIsHourly(insideHourly)
+    }
+  }
+
+  // Will only execute after we have the location so we can grab the forecast
+  useEffect(() => {
+    const getForecast = async () => {
+      const lat = location.latitude
+      const long = location.longitude
+
+      // isHourly is set as soon as we have a trip and the location is called
+      const data = await WeatherAPI.fetchNoaaAPICall(lat, long, isHourly)
+      if (data) {
+        setForecast(data)
+      }
+    }
+    if (location) {
+      getForecast()
+    }
+  }, [ location ])
+
+  // helper functions
+  const deleteTrip = async (tripID) => {
+    const userToken = localStorage['auth-user']
+    const data = await SailAPI.deleteTrip(tripID, userToken)
+    console.log(tripID)
+    navigate('/')
+  }
+
+  // render
   return (
-    <Container fluid>
-      <h1>Trip detail page</h1>
+    <Container fluid className="background">
       <Container>
-        <h1>This will be the forecast on top of the page</h1>
+        <Button onClick={() => deleteTrip(trip.id)}>Delete Trip</Button>
+        <Button onClick={() => navigate('/')}>Home</Button>
+        <Button onClick={() => navigate(`/trips/${tripID}/edit/`)}>Edit</Button>
       </Container>
-          <Row>
-            <Col xs>
-              <h3>Forecast</h3>
-              <Container>
-                <h5> Trip Name: {trip && trip.trip_name} </h5>
-                <h5> Date: {trip && trip.trip_date}  </h5>
-                <h5> Description: {trip && trip.description}  </h5>
-                <hr/>
-                <h5> Location: {location && location.location_name}  </h5>
-                <h5> Location: {location && `Long: ${location.longitude}, Lat: ${location.latitude}`}  </h5>
-                <hr/>
-                <h5> Boat: {boat && boat.boat_name}  </h5>
-                <h5> Max Wind: {boat && boat.max_wind}  </h5>
-                <h5> Min Wind: {boat && boat.min_wind}  </h5>
-              </Container>
-            </Col>
-            <Col xs>
-              <h3>My Trip Location</h3>
-            <GoogleMapTripDisplay />
-            </Col>
-          </Row>
-        </Container>
+      <Container fluid xs>
+      {trip && location && <TripCard trip={trip} location={location}/>}
+      </Container>
+      <Row>
+        <ForecastContainer location={location} trip={trip} boat={boat} forecast={forecast} isHourly={isHourly} />
+        <Col xs>
+            {locationsArr && <GoogleMapTripDisplay locationsArr={locationsArr} />}
+        </Col>
+      </Row>
+    </Container>
   )
-
 }
 
 export default TripDetailPage

@@ -5,11 +5,6 @@ const AddLocationForm = (props) => {
   // props
   const { location, handleLocationFormSubmit } = props
 
-  // effects
-  useEffect(() => {
-
-  }, [location]) // renders whenever the location is updated
-
   // render
   return (
     <Form onSubmit={handleLocationFormSubmit}>

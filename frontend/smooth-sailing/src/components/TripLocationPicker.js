@@ -10,6 +10,8 @@ import { useRef,useState } from "react";
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import GoogleMapStyle from "../styles/GoogleMapStyle";
 
+
+
 const TripLocationPicker = (props) => {
   // props
   const { location, setLocation } = props

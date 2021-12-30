@@ -1,0 +1,32 @@
+.background {
+  background-image: linear-gradient( #E3F2FD, rgb(25,117,208));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-padding-no-margin {
+  padding: 0;
+  margin: 0;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.login-button {
+  margin-top: 7px;
+}
+
+.card {
+ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+}

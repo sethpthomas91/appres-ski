@@ -1,14 +1,26 @@
 import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 // API call
 import SailAPI from '../../api/SailAPI';
+// react
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const AddTripForm = (props) => {
   // props
-  const { user } = props 
+  const { locations } = props 
+  
   // states
-  const [ locations, setLocations ] = useState(null)
   const [ boatList, setBoatList ] = useState([])
+  // router
+  const navigate = useNavigate()
+
+  // context
+  const userContext = useContext(UserContext);
+  const { user } = userContext
+  const userProfile = user.profile
+
 
   // handlers
   const handleTripFormSubmit =  async (event) => {
@@ -20,30 +32,15 @@ const AddTripForm = (props) => {
     const tripData = {
       trip_name : event.target.elements[0].value,
       trip_date: event.target.elements[1].value,
-      // there should be a better way of accessing this profile or setting a default value
-      profile : user.profile ? user.profile : 1,
+      profile : userProfile,
       location: event.target.elements[2].value,
       description : event.target.elements[4].value,
       boat: Number(event.target.elements[3].value),
     }
-    console.log(tripData)
-
     const data = await SailAPI.addTrip(tripData, userToken)
-    // still need to finish this post
+    navigate('/')
   }
 
-  // effects
-  // main purpose is the generate the list of all locations
-  useEffect(() => {
-    const getLocations = async () => {
-      const userToken = localStorage['auth-user']
-      const data = await SailAPI.fetchLocations(userToken)
-      if (data) {
-        setLocations(data)
-      }
-    }
-    getLocations()
-  }, [locations]) 
   // this should generate all of the boats for the user
   useEffect(() => {
     const getUserBoats = async () => {
